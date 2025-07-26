@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Login Page{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .form-block {
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            text-align: center;
+            min-width: 350px;
+        }
+
+        .nba-logo {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        form {
+            gap: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="center-container">
+    <div class="form-block">
+        {% block content %}
+        <!-- Display NBA logo -->
+        <img src="{{ url_for('static', filename='assets/NBA_LOGO.png') }}" alt="NBA Logo" class="nba-logo">
+
+        <h1>Enter NBA Player:</h1>
+
+        <form class="form-inline justify-content-center" action="#" method="post">
+            <input class="form-control" type="text" name="player" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit" value="submit">Search</button>
+        </form>
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
