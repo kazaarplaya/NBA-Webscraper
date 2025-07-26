@@ -8,9 +8,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def find_player(player_name):
+
+    # Create a folder for saved HTML files
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    save_folder = os.path.join(BASE_DIR, "saved_html")
+    os.makedirs(save_folder, exist_ok=True)
+
     # Turn player name into lower case
     name_lowercase = player_name.lower()
-    
     surname = name_lowercase.split(' ')[1]
 
     api_key = os.getenv("api_key")
@@ -20,19 +25,19 @@ def find_player(player_name):
     response = requests.get(scraper_url)
 
     # Save html as a file
+    player_menu_path = os.path.join(save_folder, "player_menu.html")
     if response.status_code == 200:
-        with open('player.html', 'w', encoding='utf-8') as file:
+        with open(player_menu_path, 'w', encoding='utf-8') as file:
             file.write(response.text)
-        print("Player menu HTML saved successfully!")
+        print(f"Player menu HTML saved successfully! -> {player_menu_path}")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
 
     # Parse saved page
-    with open('player.html', 'r', encoding='utf-8') as file:
+    with open(player_menu_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
 
     soup = BeautifulSoup(html_content, 'lxml')
-
     player_menu = soup.find('table', {'id': 'players'})
 
     for row in player_menu.find_all('tr')[1:]:
@@ -51,15 +56,17 @@ def find_player(player_name):
     response = requests.get(scraper_url1)
 
     # Save html as a file
+    player_homepage_path = os.path.join(save_folder, f"{name_lowercase.replace(' ','_')}_homepage.html")
+
     if response.status_code == 200:
-        with open('player_homepage.html', 'w', encoding='utf-8') as file:
+        with open(player_homepage_path, 'w', encoding='utf-8') as file:
             file.write(response.text)
-        print("Player HTML saved successfully!")
+        print(f"Player HTML saved successfully! -> {player_homepage_path}")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
 
     # Parse saved page
-    with open('player_homepage.html', 'r', encoding='utf-8') as file:
+    with open(player_homepage_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
 
     homepage = BeautifulSoup(html_content, 'lxml')
@@ -90,7 +97,7 @@ def find_player(player_name):
         
     print(player)
     
-find_player("LeBron James")
+find_player("Russell Westbrook")
 
 
 
