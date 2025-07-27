@@ -6,10 +6,12 @@ from bs4 import BeautifulSoup
 import re
 
 import os
+os.environ["FLASK_ENV"] = "development"
 from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Webscraper Logic
 def find_player(player_name):
@@ -52,6 +54,7 @@ def find_player(player_name):
                 if (a_tag.text).lower() == name_lowercase:
                     html_id = a_tag['href']
                     print(html_id)
+                # else: IF NO PLAYER IS FOUND
 
     # Individual Player Homepage
     target_url1= f'https://www.basketball-reference.com{html_id}/'
@@ -115,3 +118,4 @@ def login():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
