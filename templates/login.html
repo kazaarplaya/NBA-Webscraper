@@ -43,7 +43,18 @@
             justify-content: center;
             flex-wrap: wrap;
         }
+
+        .error-box {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+        }
     </style>
+
+    
 </head>
 <body>
 
@@ -59,6 +70,12 @@
             <input class="form-control" type="text" name="player" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit" value="submit">Search</button>
         </form>
+
+        {% if error %}
+            <div class="error-box">
+                Invalid player
+            </div>
+        {% endif %}
         {% endblock %}
     </div>
 </div>

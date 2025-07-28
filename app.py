@@ -46,16 +46,21 @@ def find_player(player_name):
     soup = BeautifulSoup(html_content, 'lxml')
     player_menu = soup.find('table', {'id': 'players'})
 
+    found_html_id = None  # track if a valid player is found
+
     for row in player_menu.find_all('tr')[1:]:
         strong_tag = row.find('strong')
         if strong_tag:
             a_tag = strong_tag.find('a')
-            if a_tag:
-                if (a_tag.text).lower() == name_lowercase:
-                    html_id = a_tag['href']
-                    print(html_id)
-                # else: IF NO PLAYER IS FOUND
-
+            if a_tag and a_tag.text.lower() == name_lowercase:
+                found_html_id = a_tag['href']
+                break 
+    # If no player found, return None
+    else: 
+        return None
+    
+    html_id = found_html_id
+    
     # Individual Player Homepage
     target_url1= f'https://www.basketball-reference.com{html_id}/'
     scraper_url1 = f'http://api.scraperapi.com?api_key={api_key}&url={target_url1}'
@@ -110,11 +115,14 @@ def login():
     if request.method == "POST":
         playername = request.form["player"]
         player = find_player(playername)
+
+        if player is None:
+            return render_template("login.html", error=True)
+        
         lebron = find_player('Lebron James')
         return render_template("base.html", player=player, lebron=lebron)
-        # return redirect(url_for("user", usr=playername))
-    else:
-        return render_template("login.html")
+    else:   
+        return render_template("login.html", error=False)
 
 if __name__ == "__main__":
     app.run(debug=True)
