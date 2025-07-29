@@ -15,10 +15,6 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Webscraper Logic
 def find_player(player_name):
-    # Create a folder for saved HTML files
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    save_folder = os.path.join(BASE_DIR, "saved_html")
-    os.makedirs(save_folder, exist_ok=True)
 
     # Turn player name into lower case
     name_lowercase = player_name.lower()
@@ -30,20 +26,12 @@ def find_player(player_name):
 
     response = requests.get(scraper_url)
 
-    # Save html as a file
-    player_menu_path = os.path.join(save_folder, "player_menu.html")
     if response.status_code == 200:
-        with open(player_menu_path, 'w', encoding='utf-8') as file:
-            file.write(response.text)
-        print(f"Player menu HTML saved successfully! -> {player_menu_path}")
+        soup = BeautifulSoup(response.text, 'lxml')
+        print(f"Player menu HTML saved successfully!")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
 
-    # Parse saved page
-    with open(player_menu_path, 'r', encoding='utf-8') as file:
-        html_content = file.read()
-
-    soup = BeautifulSoup(html_content, 'lxml')
     player_menu = soup.find('table', {'id': 'players'})
 
     found_html_id = None  # track if a valid player is found
@@ -67,21 +55,11 @@ def find_player(player_name):
 
     response = requests.get(scraper_url1)
 
-    # Save html as a file
-    player_homepage_path = os.path.join(save_folder, f"{name_lowercase.replace(' ','_')}_homepage.html")
-
     if response.status_code == 200:
-        with open(player_homepage_path, 'w', encoding='utf-8') as file:
-            file.write(response.text)
-        print(f"Player HTML saved successfully! -> {player_homepage_path}")
+        homepage = BeautifulSoup(response.text, 'lxml')
+        print(f"{player_name} HTML saved successfully! -> {player_homepage_path}")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
-
-    # Parse saved page
-    with open(player_homepage_path, 'r', encoding='utf-8') as file:
-        html_content = file.read()
-
-    homepage = BeautifulSoup(html_content, 'lxml')
 
     per_game_table = homepage.find('table', id="per_game_stats")
     info = homepage.find('div', id="meta")
