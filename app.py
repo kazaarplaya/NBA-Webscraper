@@ -13,6 +13,8 @@ load_dotenv()
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+session = requests.Session()
+
 # Webscraper Logic
 def find_player(player_name):
 
@@ -24,11 +26,11 @@ def find_player(player_name):
     target_url = f'https://www.basketball-reference.com/players/{surname[0]}/'
     scraper_url = f'http://api.scraperapi.com?api_key={api_key}&url={target_url}'
 
-    response = requests.get(scraper_url)
+    response = session.get(scraper_url)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'lxml')
-        print(f"Player menu HTML saved successfully!")
+        print(f"Player menu parsed successfully!")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
 
@@ -53,11 +55,11 @@ def find_player(player_name):
     target_url1= f'https://www.basketball-reference.com{html_id}/'
     scraper_url1 = f'http://api.scraperapi.com?api_key={api_key}&url={target_url1}'
 
-    response = requests.get(scraper_url1)
+    response = session.get(scraper_url1)
 
     if response.status_code == 200:
         homepage = BeautifulSoup(response.text, 'lxml')
-        print(f"{player_name} HTML saved successfully! -> {player_homepage_path}")
+        print(f"{player_name} parsed successfully!")
     else:
         print(f"Failed to retrieve page, status code: {response.status_code}")
 
