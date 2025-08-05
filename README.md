@@ -2,6 +2,11 @@
 
 A Python-based web application that scrapes NBA player statistics from [Basketball Reference](https://www.basketball-reference.com/) and compares them against LeBron James using a Flask web interface.
 
+## Login Page
+![Preview of UI](/static/assets/login_page.png)
+
+## Comparison Page
+![Preview of UI](/static/assets/comparison_page.png)
 ---
 
 ## Features
