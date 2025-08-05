@@ -4,7 +4,7 @@ A Python-based web application that scrapes NBA player statistics from [Basketba
 
 ---
 
-## ⚙️ Features
+## Features
 
 - Scrapes player statistics using `requests`, `BeautifulSoup`, and `pandas`
 - Uses multithreading to speed up HTTP requests
@@ -14,7 +14,7 @@ A Python-based web application that scrapes NBA player statistics from [Basketba
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository**
 
@@ -22,6 +22,25 @@ A Python-based web application that scrapes NBA player statistics from [Basketba
 git clone https://github.com/your-username/nba-comparator.git
 cd nba-comparator
 
-2. Install Dependencies
+```
+
+2. **Install Dependencies**
+```
 pip install -r requirements.txt
+```
+
+4. Start the Flask Server
+```
+python app.py
+```
+
+6. Open the app
+Open your browser and go to:
+```
+http://127.0.0.1:5000
+```
+
+8. Usage
+Enter the name of any NBA player to compare their statistics with LeBron James.
+
 
