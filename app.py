@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import re
+from threading import Thread
 
 import os
 os.environ["FLASK_ENV"] = "development"
@@ -94,12 +95,30 @@ def find_player(player_name):
 def login():
     if request.method == "POST":
         playername = request.form["player"]
-        player = find_player(playername)
+        player_data = {}
 
+        def wrapper(name, key):
+            player_data[key] = find_player(name)
+
+        # Create threads for both player lookups
+        t1 = Thread(target=wrapper, args=(playername, 'player'))
+        t2 = Thread(target=wrapper, args=('Lebron James', 'lebron'))
+
+        # Start both threads
+        t1.start()
+        t2.start()
+
+        # Wait for both threads to finish
+        t1.join()
+        t2.join()
+
+        player = player_data.get('player')
+        lebron = player_data.get('lebron')
+
+        # Check for invalid player
         if player is None:
             return render_template("login.html", error=True)
         
-        lebron = find_player('Lebron James')
         return render_template("base.html", player=player, lebron=lebron)
     else:   
         return render_template("login.html", error=False)
