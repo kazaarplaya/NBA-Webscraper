@@ -1,13 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
-import re
 from threading import Thread
 
 import os
-os.environ["FLASK_ENV"] = "development"
 from dotenv import load_dotenv
 load_dotenv()
 
