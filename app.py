@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 from threading import Thread
+import re
 
 import os
 from dotenv import load_dotenv
